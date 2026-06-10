@@ -1,9 +1,17 @@
-"use client"
+"use client";
 
 import { useState, useRef, useEffect } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { Award, Download, ArrowLeft, Sparkles, Loader2, Check, RefreshCcw } from "lucide-react";
+import {
+  Award,
+  Download,
+  ArrowLeft,
+  Sparkles,
+  Loader2,
+  Check,
+  RefreshCcw,
+} from "lucide-react";
 
 export default function Home() {
   // component state
@@ -49,7 +57,7 @@ export default function Home() {
 
   // handler: submit on Enter key
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleGenerate();
     }
   };
@@ -59,8 +67,10 @@ export default function Home() {
     const len = text.trim().length;
     // Detect mobile (width <= 600px)
     let isMobile = false;
-    if (typeof window !== 'undefined') {
-      isMobile = window.innerWidth <= 600 || window.matchMedia('(max-width: 600px)').matches;
+    if (typeof window !== "undefined") {
+      isMobile =
+        window.innerWidth <= 600 ||
+        window.matchMedia("(max-width: 600px)").matches;
     }
     // Lower max font size on mobile
     const baseMax = isMobile ? 22 : 34; // px
@@ -89,7 +99,10 @@ export default function Home() {
 
     const onTouchStart = (e: TouchEvent) => {
       if (e.touches.length === 2) {
-        pinchRef.current.initialDistance = getDistance(e.touches[0], e.touches[1]);
+        pinchRef.current.initialDistance = getDistance(
+          e.touches[0],
+          e.touches[1],
+        );
         pinchRef.current.initialScale = certRef.current ? certScale : 1;
       }
     };
@@ -98,7 +111,9 @@ export default function Home() {
       if (e.touches.length === 2) {
         e.preventDefault();
         const distance = getDistance(e.touches[0], e.touches[1]);
-        const scale = (distance / pinchRef.current.initialDistance) * pinchRef.current.initialScale;
+        const scale =
+          (distance / pinchRef.current.initialDistance) *
+          pinchRef.current.initialScale;
         // clamp scale between 1 and 3
         const clamped = Math.min(3, Math.max(1, scale));
         setCertScale(clamped);
@@ -111,14 +126,14 @@ export default function Home() {
     };
 
     // prefer passive: false so we can preventDefault during pinch
-    el.addEventListener('touchstart', onTouchStart, { passive: true });
-    el.addEventListener('touchmove', onTouchMove, { passive: false });
-    el.addEventListener('touchend', onTouchEnd);
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd);
 
     return () => {
-      el.removeEventListener('touchstart', onTouchStart as any);
-      el.removeEventListener('touchmove', onTouchMove as any);
-      el.removeEventListener('touchend', onTouchEnd as any);
+      el.removeEventListener("touchstart", onTouchStart as any);
+      el.removeEventListener("touchmove", onTouchMove as any);
+      el.removeEventListener("touchend", onTouchEnd as any);
     };
   }, [certScale]);
 
@@ -127,8 +142,8 @@ export default function Home() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent pointer-events-none"></div>
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMiI+PHBhdGggZD0iTTM2IDM0djItaDJWMzRoLTJ6bTAtNGgydjJoLTJ2LTJ6bTAtNHYyaC0ydi0yaDF6bTAtNGgydjJoLTJ2LTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20 pointer-events-none"></div>
 
-  {/* Landing / form: hidden while loading/success/certificate shown */}
-  {!showCert && !isLoading && !isSuccess && (
+      {/* Landing / form: hidden while loading/success/certificate shown */}
+      {!showCert && !isLoading && !isSuccess && (
         <div className="relative z-10 w-full max-w-lg">
           <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden">
             <div className="bg-gradient-to-r from-blue-600 to-cyan-600 p-8 text-center">
@@ -138,10 +153,10 @@ export default function Home() {
                 </div>
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 tracking-tight">
-                WORLD INNOVATORS
+                SHE LEADS
               </h1>
               <h2 className="text-2xl md:text-3xl font-bold text-white/90 mb-3">
-                PROFESSIONALS
+                TECH
               </h2>
               <div className="flex items-center justify-center gap-2 text-cyan-100">
                 <p className="text-sm md:text-base font-medium">
@@ -181,8 +196,8 @@ export default function Home() {
         </div>
       )}
 
-  {/* Loading / success card: shows spinner or check + message */}
-  {(isLoading || isSuccess) && (
+      {/* Loading / success card: shows spinner or check + message */}
+      {(isLoading || isSuccess) && (
         <div className="relative z-10 flex flex-col items-center justify-center">
           <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-12 text-center">
             <div className="flex justify-center mb-6">
@@ -200,22 +215,35 @@ export default function Home() {
               </div>
             </div>
             <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
-              {!isSuccess ? 'Generating Your Certificate' : 'Certificate generated'}
+              {!isSuccess
+                ? "Generating Your Certificate"
+                : "Certificate generated"}
             </h3>
             <p className="text-cyan-300 text-sm md:text-base mb-2">
-              {!isSuccess ? 'Crafting your personalized certificate...' : 'Ready — preparing your download.'}
+              {!isSuccess
+                ? "Crafting your personalized certificate..."
+                : "Ready — preparing your download."}
             </p>
             <div className="flex items-center justify-center gap-1 mt-4">
-              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+              <div
+                className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce"
+                style={{ animationDelay: "0ms" }}
+              ></div>
+              <div
+                className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce"
+                style={{ animationDelay: "150ms" }}
+              ></div>
+              <div
+                className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce"
+                style={{ animationDelay: "300ms" }}
+              ></div>
             </div>
           </div>
         </div>
       )}
 
-  {/* Certificate preview, user can download as pdf or go back to genrate another. */}
-  {showCert && (
+      {/* Certificate preview, user can download as pdf or go back to genrate another. */}
+      {showCert && (
         <div className="relative z-10 flex flex-col items-center w-full max-w-6xl">
           <div className="mb-6 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
@@ -228,19 +256,23 @@ export default function Home() {
 
           <div
             ref={certRef}
-            className="relative w-full max-w-[900px] h-auto aspect-[16/9] bg-white shadow-2xl rounded-lg overflow-hidden"
-            style={{ touchAction: 'none', transform: `scale(${certScale})`, transformOrigin: 'center center' }}
+            className="relative w-full max-w-[900px] h-auto aspect-[1000/707] bg-white shadow-2xl rounded-lg overflow-hidden"
+            style={{
+              touchAction: "none",
+              transform: `scale(${certScale})`,
+              transformOrigin: "center center",
+            }}
           >
             <img
               src="/certificate-template.jpg"
               alt="Certificate Template"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
             <div
               className="absolute text-center w-full px-4 flex items-center justify-center"
               style={{
-                top: "44%",
-                left: "55%",
+                top: "59%",
+                left: "51%",
                 transform: "translate(-50%, -50%)",
                 color: "#000000",
                 fontWeight: 600,
@@ -248,10 +280,20 @@ export default function Home() {
                 // fontStyle: 'italic',
                 textShadow: "0 1px 2px rgba(0,0,0,0.08)",
                 letterSpacing: "0.3px",
-                padding: '0 12px',
+                padding: "0 12px",
               }}
             >
-              <span style={{ maxWidth: '86%', display: 'inline-block', wordBreak: 'break-word', whiteSpace: 'normal', fontSize: computeNameFontSize(name) }}>{name}</span>
+              <span
+                style={{
+                  maxWidth: "86%",
+                  display: "inline-block",
+                  wordBreak: "break-word",
+                  whiteSpace: "normal",
+                  fontSize: computeNameFontSize(name),
+                }}
+              >
+                {name}
+              </span>
             </div>
           </div>
 
@@ -277,8 +319,7 @@ export default function Home() {
       {/* Footer showing my name linked to my portfolio */}
       <div className="w-full flex justify-center mt-10 mb-6">
         <footer className="relative z-20 text-center text-sm text-white/60">
-
-          © 2025{' '}
+          © 2025{" "}
           <a
             href="https://tmb-space.netlify.app/"
             target="_blank"
@@ -286,6 +327,7 @@ export default function Home() {
             className="text-cyan-400 hover:text-cyan-300 transition-colors duration-200 font-semibold"
           >
             Built by TMB
+            Forked by Scott
           </a>
         </footer>
       </div>
