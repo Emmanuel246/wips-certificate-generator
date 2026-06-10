@@ -53,3 +53,4 @@ Whether you’re using a phone, tablet, or laptop, it adjusts neatly for a simpl
 ## 🪄 License
 
 This project is open-source under the **MIT License**.
+# wips-certificate-generator
