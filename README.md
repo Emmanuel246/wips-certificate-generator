@@ -45,9 +45,8 @@ Whether you’re using a phone, tablet, or laptop, it adjusts neatly for a simpl
 
 ## ✳️ Author
 
-**Made by TMB**  
+**Made by TMB and Scott**  
 ✳️ TMB | Tech + Faith + Growth  
-[https://tmb-space.netlify.app](https://tmb-space.netlify.app)
 
 ---
 
