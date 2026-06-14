@@ -264,14 +264,14 @@ export default function Home() {
             }}
           >
             <img
-              src="/certificate-template.jpg"
+              src="/certificate-template.jpeg"
               alt="Certificate Template"
               className="w-full h-full object-contain"
             />
             <div
               className="absolute text-center w-full px-4 flex items-center justify-center"
               style={{
-                top: "59%",
+                top: "55%",
                 left: "51%",
                 transform: "translate(-50%, -50%)",
                 color: "#000000",
